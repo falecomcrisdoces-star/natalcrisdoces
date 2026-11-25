@@ -197,7 +197,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .rec li small{display:block;font-size:13.5px;color:var(--gray)}
 
 /* vitrine (carrossel automático) */
-.deps-w{position:relative;z-index:2;margin-top:90px}
+.deps-w{position:relative;z-index:2;margin-top:90px;scroll-margin-top:20px}
 .vitrine{overflow:hidden;padding:34px 0 14px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
 .vit-t{display:flex;gap:14px;width:max-content;animation:mq 45s linear infinite}
 .vitrine:hover .vit-t{animation-play-state:paused}
@@ -382,7 +382,7 @@ footer img{width:60px;height:60px;margin:0 auto 10px}
     <div class="tag rv dl1"><span class="tag-g"><i></i>Curso de Natal 🎄</span><span class="tag-t">Produtos natalinos exclusivos</span></div>
     <h1 class="rv dl2"><span>Chegou a época mais<br class="br-m"> lucrativa do ano</span> para a<br class="br-m"> confeitaria: o Natal! 💰</h1>
     <p class="sub rv dl2">Pela primeira vez, liberei os meus produtos natalinos exclusivos para você <b>aprender, praticar e bombar de encomendas</b> neste fim de ano.</p>
-    <div class="btn-wrap rv dl3"><button class="btn abrir" type="button"><svg class="bt-ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.4 11.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.1L21 8H6.2"/><circle cx="9.5" cy="20" r="1.2" fill="#fff"/><circle cx="17" cy="20" r="1.2" fill="#fff"/></svg>Quero garantir minha vaga</button><span class="cur" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M3.5 2.8 20 10.2l-7.1 2.2-2.7 7.3z" fill="#ff6a1a" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg><b>Você</b></span></div>
+    <div class="btn-wrap rv dl3"><button class="btn rolar" type="button"><svg class="bt-ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.4 11.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.1L21 8H6.2"/><circle cx="9.5" cy="20" r="1.2" fill="#fff"/><circle cx="17" cy="20" r="1.2" fill="#fff"/></svg>Quero garantir minha vaga</button><span class="cur" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M3.5 2.8 20 10.2l-7.1 2.2-2.7 7.3z" fill="#ff6a1a" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg><b>Você</b></span></div>
     <p class="note rv dl3"><i></i>De <s>R$ 147,00</s>&nbsp;por <b>R$ 57,00</b> · pagamento único</p>
   </div>
 </section>
@@ -474,7 +474,7 @@ footer img{width:60px;height:60px;margin:0 auto 10px}
     </div>
   </div>
 
-  <div class="deps-w">
+  <div class="deps-w" id="produtos">
     <div class="c"><h2 class="tit rv">Produtos que <span class="dgb">você vai fazer</span></h2></div>
     <div class="vitrine rv dl1"><div class="vit-t" id="vit"></div></div>
   </div>
@@ -536,14 +536,14 @@ footer img{width:60px;height:60px;margin:0 auto 10px}
 <script>
 {
 /* =================== CONFIGURE AQUI =================== */
-const CHECKOUT_URL = "COLE-AQUI-O-LINK-DO-CHECKOUT"; // link de pagamento
+const CHECKOUT_URL = "https://pay.hotmart.com/N102668352X?off=85s35uk6"; // link de pagamento
 const PIXEL_ID = "";                                  // ID do Meta Pixel (deixe vazio para não usar)
 
 /* Fotos: aceita link do Drive, ID do Drive ou caminho como "img/foto.jpg" */
 const FOTOS = {
   cris: "1hiTaqRVccAi4RJVrJGlCEoH_hiei0bx1",  // foto da Cris (IMG-194)
   capa: "1qZlAhBOxUqfYZVWmIsMD0uec6swtgq5X",  // reserva, caso a foto da Cris não carregue
-  m1:   "1RFD3ykSg_n-j0BrKNXei2n0FN6vlH_kC",  // módulo 01 - sobremesas e tortas
+  m1:   "/modulo1.jpg",                      // módulo 01 - sobremesas e tortas (foto local)
   m2:   "1SvlHfFpl9VTmnCJYFQCxwjY__VT4j0w2",  // módulo 02 - chocotones
   m3:   "1BSh_v5msxS76gvzlDueR6fkbpqsk336J"   // módulo 03 - doces finos
 };
@@ -730,6 +730,10 @@ const irCheckout = () => {
   location.href = CHECKOUT_URL;
 };
 document.querySelectorAll(".abrir").forEach(b => b.addEventListener("click", irCheckout));
+/* 1º botão -> rola até "Produtos que você vai fazer" */
+document.querySelectorAll(".rolar").forEach(b => b.addEventListener("click", () => {
+  document.getElementById("produtos").scrollIntoView({ behavior: "smooth", block: "start" });
+}));
 }
 </script>
 </body>
