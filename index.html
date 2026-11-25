@@ -131,7 +131,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 @keyframes gira{to{transform:rotate(360deg)}}
 
 /* ============ O QUE VOCÊ VAI APRENDER ============ */
-.recebe{position:relative;padding:80px 0 96px;overflow:hidden;background:var(--bg)}
+.recebe{position:relative;padding:80px 0 30px;overflow:hidden;overflow:clip;background:var(--bg)}
 .mural{position:absolute;inset:-120px -40px;display:grid;grid-template-columns:repeat(6,1fr);gap:14px;opacity:.55;z-index:0}
 .col{display:grid;gap:14px;align-content:start;will-change:transform}
 .col:nth-child(even){margin-top:-110px}
@@ -197,7 +197,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .rec li small{display:block;font-size:13.5px;color:var(--gray)}
 
 /* vitrine (carrossel automático) */
-.deps-w{position:relative;z-index:2;margin-top:90px;scroll-margin-top:20px}
+.deps-w{position:relative;z-index:2;margin-top:90px}
 .vitrine{overflow:hidden;padding:34px 0 14px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
 .vit-t{display:flex;gap:14px;width:max-content;animation:mq 45s linear infinite}
 .vitrine:hover .vit-t{animation-play-state:paused}
@@ -302,7 +302,7 @@ footer img{width:60px;height:60px;margin:0 auto 10px}
   .faixa{padding:12px 0}.faixa span{font-size:11px;letter-spacing:.26em}
   .tit{font-size:clamp(28px,8vw,36px)}
   .intro{font-size:16px}
-  .recebe{padding:72px 0 80px}
+  .recebe{padding:72px 0 26px}
   .mural{grid-template-columns:repeat(3,1fr);inset:-80px -60px}
   .mural .col:nth-child(n+4){display:none}
   .item{grid-template-columns:1fr;gap:26px;margin-top:50px}
@@ -739,7 +739,9 @@ addEventListener("scroll", () => requestAnimationFrame(() => revelar(false)), { 
 addEventListener("scrollend", () => revelar(false));
 document.querySelectorAll(".rolar").forEach(b => b.addEventListener("click", () => {
   document.querySelectorAll(".recebe .rv, .recebe .bl, .deps-w .rv").forEach(el => { el.classList.add("on"); io.unobserve(el); });
-  document.getElementById("produtos").scrollIntoView({ behavior: "smooth", block: "start" });
+  const alvo = document.getElementById("produtos");
+  document.querySelector(".recebe").scrollTop = 0; // a seção tem overflow oculto: nunca rolar por dentro dela
+  scrollTo({ top: alvo.getBoundingClientRect().top + scrollY - 20, behavior: "smooth" });
 }));
 }
 </script>
