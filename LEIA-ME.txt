@@ -1,0 +1,29 @@
+CURSO DE NATAL CRIS DOCES — PACOTE OTIMIZADO
+=============================================
+
+ESTRUTURA
+  index.html            página (sem CSS/JS embutidos)
+  css/style.min.css     estilos minificados + @font-face local
+  js/app.min.js         script (carregado com defer)
+  fonts/inter-*.woff    Inter 300/400/500/600, subset latim (PT-BR)
+  img/logo.webp         logo otimizada (fallback: img/logo.png)
+  img/favicon.png       ícone da aba
+
+CONFIGURAR (js/app.min.js, primeiras linhas)
+  CHECKOUT_URL = link de pagamento   (OBRIGATÓRIO)
+  PIXEL_ID     = ID do Meta Pixel     (opcional)
+
+FOTOS
+  As fotos ainda vêm do Google Drive (IDs em FOTOS e VITRINE).
+  Para máxima velocidade, hospede-as junto com a página:
+    1. Exporte cada foto em WebP (qualidade ~80):
+       - foto da Cris: 900px de largura
+       - módulos m1/m2/m3: 1200px
+       - vitrine: 500px
+    2. Coloque em img/ (ex.: img/cris.webp, img/m1.webp ...)
+    3. Troque o ID pelo caminho, ex.: cris: "img/cris.webp"
+       (o script já aceita caminho local no lugar do ID do Drive)
+
+PUBLICAR
+  Suba a pasta inteira (Hostinger, Netlify, Vercel etc.).
+  Abra pelo servidor; via file:// as fontes podem ser bloqueadas.
