@@ -731,7 +731,14 @@ const irCheckout = () => {
 };
 document.querySelectorAll(".abrir").forEach(b => b.addEventListener("click", irCheckout));
 /* 1º botão -> rola até "Produtos que você vai fazer" */
+/* revela tudo que já ficou acima do fim da tela (evita blocos pretos em rolagem rápida) */
+const revelar = (tudo) => document.querySelectorAll(".rv:not(.on), .bl:not(.on)").forEach(el => {
+  if (tudo || el.getBoundingClientRect().top < innerHeight) { el.classList.add("on"); io.unobserve(el); }
+});
+addEventListener("scroll", () => requestAnimationFrame(() => revelar(false)), { passive: true });
+addEventListener("scrollend", () => revelar(false));
 document.querySelectorAll(".rolar").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".recebe .rv, .recebe .bl, .deps-w .rv").forEach(el => { el.classList.add("on"); io.unobserve(el); });
   document.getElementById("produtos").scrollIntoView({ behavior: "smooth", block: "start" });
 }));
 }
