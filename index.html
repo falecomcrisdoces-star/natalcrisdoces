@@ -537,7 +537,7 @@ footer img{width:60px;height:60px;margin:0 auto 10px}
 {
 /* =================== CONFIGURE AQUI =================== */
 const CHECKOUT_URL = "https://pay.hotmart.com/N102668352X?off=85s35uk6"; // link de pagamento
-const PIXEL_ID = "";                                  // ID do Meta Pixel (deixe vazio para não usar)
+const PIXEL_ID = "1377585655959737";                  // [1] Pixel Cris Doces - Principal
 
 /* Fotos: aceita link do Drive, ID do Drive ou caminho como "img/foto.jpg" */
 const FOTOS = {
@@ -585,9 +585,11 @@ document.getElementById("ano").textContent = new Date().getFullYear();
 if (PIXEL_ID) {
   !function(f,n){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[]}(window);
   fbq('init', PIXEL_ID); fbq('track','PageView');
+  fbq('track','ViewContent',{content_name:'Receitas Natalinas que Vendem',content_ids:['6532092'],content_type:'product',value:57,currency:'BRL'});
   let ok = 0; const load = () => { if (ok) return; ok = 1; const t = document.createElement('script'); t.async = 1; t.src = 'https://connect.facebook.net/en_US/fbevents.js'; document.head.appendChild(t); };
+  window.carregaPixel = load;
   ['scroll','pointerdown','touchstart','keydown','mousemove'].forEach(e => addEventListener(e, load, {once:true, passive:true}));
-  addEventListener('load', () => setTimeout(load, 3000));
+  addEventListener('load', () => setTimeout(load, 800));
 }
 
 /* cordão de luzes */
@@ -726,8 +728,15 @@ frame();
 /* botões -> checkout direto */
 const irCheckout = () => {
   if (!/^https?:\/\//.test(CHECKOUT_URL)) return; // link ainda não configurado
-  if (window.fbq) fbq("track", "InitiateCheckout");
-  location.href = CHECKOUT_URL;
+  /* repassa UTMs/fbclid da página para o checkout (atribuição na Hotmart) */
+  let url = CHECKOUT_URL;
+  const q = new URLSearchParams(location.search);
+  ["utm_source","utm_medium","utm_campaign","utm_content","utm_term","fbclid","src","sck"].forEach(k => { if (q.get(k)) url += (url.includes("?") ? "&" : "?") + k + "=" + encodeURIComponent(q.get(k)); });
+  if (window.fbq) {
+    if (window.carregaPixel) carregaPixel();
+    fbq("track", "InitiateCheckout", {content_ids:["6532092"],content_type:"product",value:57,currency:"BRL"});
+    setTimeout(() => { location.href = url; }, 300); // dá tempo do evento sair
+  } else location.href = url;
 };
 document.querySelectorAll(".abrir").forEach(b => b.addEventListener("click", irCheckout));
 /* 1º botão -> rola até "Produtos que você vai fazer" */
